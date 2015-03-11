@@ -2,19 +2,94 @@
 <html lang="en">
 <head>
 	<title>Open Health Analytics</title>
+	
+	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-	<p> county vs <select id="county_diseases"></select> Selected Disease :<b id="selected-value-disease"></b></p>
-	<div id="chart"></div>
-	<p> Diseases vs  <select id="county"></select> Selected County :<b id="selected-value-county"></b></p>
-	<div id="chart-two"></div>
-	<p id="chart-two-indicators"></p>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<h3 class="text-center" style="color:#fff;font-weight:bolder;">American Counties v/s Diseases</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="well text-center"><b>About this:</b> Infographics is the way which make the data senseful and easy to understand. In this, I am providing analytic for <a href="http://health.data.ny.gov/resource/2yck-xisk.json">http://health.data.ny.gov/resource/2yck-xisk.json</a> on the basis of the frequency of diseases and county in the data.  </div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title"><b>Analytic with respect to Diseases</b></h3>
+				  </div>
+				  <div class="panel-body">
+				  <div style="width:1000px;margin:auto;" >
+				    <p><select id="county_diseases"></select> Selected Disease :<b id="selected-value-disease"></b></p>
+					<div id="chart"></div>
+					</div>
+				  </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title"><b>Analytic with respect to Counties</b></h3>
+				  </div>
+				  <div class="panel-body">
+				  <div style="width:1000px;margin:auto;" >
+				    <p> Diseases vs  <select id="county"></select> Selected County :<b id="selected-value-county"></b></p>
+				    <div style="width:400px;margin:auto;">
+						<div id="chart-two"></div>
+					</div>
+					<p id="chart-two-indicators"></p>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title"><b>Have you noticed ?</b></h3>
+				  </div>
+				  <div class="panel-body">
+				  User can also select counties and diseases by clicking on respective diagrams.
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+				  <div class="panel-heading">
+				    <h3 class="panel-title"><b>Find me on Github</b></h3>
+				  </div>
+				  <div class="panel-body">
+				  	<a href="https://github.com/openhealth">Github</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		
+		
+	</div>
+	
+	
 </body>
 <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="d3.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="angular.min.js"></script>
-<script type="text/javascript" src="angular-route.min.js"></script>
+<!-- <script type="text/javascript" src="angular.min.js"></script>
+<script type="text/javascript" src="angular-route.min.js"></script> -->
 <script type="text/javascript" src="openHealth.js"></script>
 <script type="text/javascript" src="localforage.min.js"></script>
 <script type="text/javascript" src="custom.js"></script>

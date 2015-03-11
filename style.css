@@ -1,11 +1,23 @@
+body {
+	background-color: #363532;
+}
+
 .x-axis-county {
 	-webkit-transform:rotate(-90deg);	
 }
 .pie-indicators {
 	padding:10px;
-	width: 300px;
+	width: 500px;
 	float: left;
 }
 /*#chart-two-indicators {
 	height: 500px;
 }*/
+select {
+	padding: 5px;
+	border-radius: 5px;
+}
+.tooltip {
+	border: 1px solid #575757;
+	font-weight: bold;
+}

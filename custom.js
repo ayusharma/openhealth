@@ -22,7 +22,7 @@ var padding = 2;
 
 var selected_value_disease = d3.select("#selected-value-disease").text("Angina and Ischemic Heart Disease");
 var selected_value_county = d3.select("#selected-value-county").text("Albany ");
-var svg = d3.select("#chart").append("svg").style("background","#ccc")
+var svg = d3.select("#chart").append("svg")
 	.attr("width",w + margin.left + margin.right)
 	.attr("height",h + margin.top + margin.bottom)
 	.append("g")
@@ -60,7 +60,7 @@ d3.json("data.json",function  (data) {
 	// console.log(unique(zip));
 
 	//tooltips
-	var tooltip = d3.select("body").append("div")
+	var tooltip = d3.select("body").append("div").attr("class","tooltip")
 					.style("position","absolute")
 					.style("padding","0 10px")
 					.style("background","white")
@@ -196,7 +196,7 @@ d3.json("data.json",function  (data) {
 			y: function(d){ return h-yScale(d.No);},
 			width:function(d){ return (w/(data_temp.length))-2},
 			height:function(d){return yScale(d.No);}
-		}).style("fill","#F60");
+		}).style("fill","#4E8AD9");
 
 		
 	}
@@ -254,7 +254,7 @@ d3.json("data.json",function  (data) {
 			y: function(d){ return h-yScale(d.No);},
 			width:function(d){ return (w/(data_temp.length))-2},
 			height:function(d){return yScale(d.No);}
-		}).style("fill","#F60");
+		}).style("fill","#4E8AD9");
 
 		
 	}
@@ -352,6 +352,7 @@ d3.json("data.json",function  (data) {
 						.attr("fill",function(d,i){
 							return colors(i);
 						}).style("cursor","pointer").attr("d",arc);
+
 				
 		d3.selectAll("#chart-two-indicators").selectAll("h5").remove();
 
