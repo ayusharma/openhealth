@@ -20,13 +20,13 @@ var freq = [];
 var width_bar = 50;
 var padding = 2;
 
-
+var selected_value_disease = d3.select("#selected-value-disease").text("Angina and Ischemic Heart Disease");
+var selected_value_county = d3.select("#selected-value-county").text("Albany ");
 var svg = d3.select("#chart").append("svg").style("background","#ccc")
 	.attr("width",w + margin.left + margin.right)
 	.attr("height",h + margin.top + margin.bottom)
 	.append("g")
 	.attr("transform","translate("+margin.left+","+margin.top+")");
-
 
 d3.json("data.json",function  (data) {
 
@@ -71,10 +71,11 @@ d3.json("data.json",function  (data) {
 	ucounty = unique(ucounty);
 
 	// making a select option of counties
-	d3.selectAll("#county").selectAll("option").data(ucounty).enter().append("option").text(function(d){return d;}).attr("value",function(d){ return d;});
+	d3.selectAll("#county").selectAll("option").data(ucounty).enter().append("option").text(function(d){return d;}).attr("value",function(d){ return d;}).attr("id",function(d,i){ return ("county-"+i);});
 
 	//making a select option of county diseases
-	d3.selectAll("#county_diseases").selectAll("option").data(counties_disease).enter().append("option").text(function(d){return d;}).attr("value",function(d){ return d;});
+	d3.selectAll("#county_diseases").selectAll("option").data(counties_disease).enter().append("option").text(function(d){return d;}).attr("value",function(d){ return d;}).attr("id",function(d,i){ return ("disease-"+i);});
+
 	
 
 	//generating counties by diseases
@@ -171,9 +172,12 @@ d3.json("data.json",function  (data) {
 		
 		//drawing bar chart for city V/S no. of people have diseases
 		svg.selectAll("rect").data(data_temp).enter().append("rect").style("cursor","pointer")
-		.on("click",function(d){
+		.on("click",function(d,i){
 			console.log(d);
 			drawPieUpdate(d.county);
+			d3.select("#county-"+i).selected;
+			selected_value_county.text(d.county);
+
 		})
 		.on("mouseover",function(d){
 			d3.select(this).style("opacity",".5")
@@ -230,6 +234,8 @@ d3.json("data.json",function  (data) {
 		.on("click",function(d){
 			console.log(d);
 			drawPieUpdate(d.county);
+			selected_value_county.text(d.county);
+
 		})
 		.on("mouseover",function(d){
 			d3.select(this).style("opacity",".5")
@@ -288,6 +294,7 @@ d3.json("data.json",function  (data) {
 						.on("click",function(d){
 							console.log(d);
 							drawBarUpdate(d.data.disease);
+							selected_value_disease.text(d.data.disease);
 						})
 						.attr("fill",function(d,i){
 							return colors(i);
@@ -328,6 +335,7 @@ d3.json("data.json",function  (data) {
 						.on("click",function(d){
 							console.log(d);
 							drawBarUpdate(d.data.disease);
+							selected_value_disease.text(d.data.disease);
 						})
 						.on("mouseover",function(d){
 							console.log(d);
@@ -358,14 +366,15 @@ d3.json("data.json",function  (data) {
 
 
 	//default selected value
-	drawBar("Hypertension");
-	drawPie("New York ");
+	drawBar("Angina and Ischemic Heart Disease");
+	drawPie("Albany ");
 
 	//adding a disease event selector to select diseases
 	d3.select("#county_diseases").on("change",function(d,i){
 		var sel = d3.select(this).node().value;
 		drawBarUpdate(sel);
 		console.log(sel);
+		selected_value_disease.text(sel);
 
 	});
 
@@ -374,6 +383,7 @@ d3.json("data.json",function  (data) {
 		var sel = d3.select(this).node().value;
 		drawPieUpdate(sel);
 		console.log(freqDisease(sel));
+		selected_value_county.text(sel);
 
 	});
 
