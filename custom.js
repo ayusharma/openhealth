@@ -171,6 +171,10 @@ d3.json("data.json",function  (data) {
 		
 		//drawing bar chart for city V/S no. of people have diseases
 		svg.selectAll("rect").data(data_temp).enter().append("rect").style("cursor","pointer")
+		.on("click",function(d){
+			console.log(d);
+			drawPieUpdate(d.county);
+		})
 		.on("mouseover",function(d){
 			d3.select(this).style("opacity",".5")
 			tooltip.transition().style("opacity",1)
@@ -223,6 +227,10 @@ d3.json("data.json",function  (data) {
 		//drawing bar chart for city V/S no. of people have diseases
 		svg.selectAll("rect").remove();
 		svg.selectAll("rect").data(data_temp).enter().append("rect").style("cursor","pointer")
+		.on("click",function(d){
+			console.log(d);
+			drawPieUpdate(d.county);
+		})
 		.on("mouseover",function(d){
 			d3.select(this).style("opacity",".5")
 			tooltip.transition().style("opacity",1)
@@ -252,7 +260,8 @@ d3.json("data.json",function  (data) {
 		var radius = 200;
 		var colors = d3.scale.category20c();
 		var temp_data = freqDisease(selectedCounty);
-
+		var temp_data_two = diseasesByCounty(selectedCounty).repeated.length;
+		console.log(temp_data_two);
 		var pie = d3.layout.pie().value(function (d) {
 		return d.freq;
 		})
@@ -264,27 +273,31 @@ d3.json("data.json",function  (data) {
 						.append("g")
 						.attr("transform","translate("+(width-radius)+","+(height-radius)+")")
 						.selectAll("path").data(pie(temp_data)).enter().append("path")
-						.style("cursor","pointer")
 						.on("mouseover",function(d){
 							console.log(d);
 							d3.select(this).style("opacity",".5")
 							tooltip.transition().style("opacity",1)
-							tooltip.html(d.data.disease+" "+d.data.freq)
+							tooltip.html(d.data.disease+" "+((d.data.freq/temp_data_two)*100).toFixed(2)+"%")
 							.style("left",(d3.event.pageX)+"px")
 							.style("top",(d3.event.pageY)-15+"px")
 						})
 						.on("mouseout",function(d){
 							tooltip.transition().style("opacity",0)
 							d3.select(this).style("opacity","1")
-						}).attr("fill",function(d,i){
+						})
+						.on("click",function(d){
+							console.log(d);
+							drawBarUpdate(d.data.disease);
+						})
+						.attr("fill",function(d,i){
 							return colors(i);
-						}).attr("d",arc);
+						}).style("cursor","pointer").attr("d",arc);
 				
 
 		var text = d3.selectAll("#chart-two-indicators").selectAll("h5")
 		.data(temp_data).enter().append("h5")
 		.text(function(d){
-			return d.disease+" "+d.freq+"%";
+			return d.disease+" "+((d.freq/temp_data_two)*100).toFixed(2)+"%";
 		}).attr("class","pie-indicators").style("background",function(d,i){
 			return colors(i);
 		});
@@ -298,6 +311,7 @@ d3.json("data.json",function  (data) {
 		var radius = 200;
 		var colors = d3.scale.category20c();
 		var temp_data = freqDisease(selectedCounty);
+		var temp_data_two = diseasesByCounty(selectedCounty).repeated.length;
 
 		var pie = d3.layout.pie().value(function (d) {
 		return d.freq;
@@ -311,11 +325,15 @@ d3.json("data.json",function  (data) {
 						.append("g")
 						.attr("transform","translate("+(width-radius)+","+(height-radius)+")")
 						.selectAll("path").data(pie(temp_data)).enter().append("path")
+						.on("click",function(d){
+							console.log(d);
+							drawBarUpdate(d.data.disease);
+						})
 						.on("mouseover",function(d){
 							console.log(d);
 							d3.select(this).style("opacity",".5")
 							tooltip.transition().style("opacity",1)
-							tooltip.html(d.data.disease+" "+d.data.freq)
+							tooltip.html(d.data.disease+" "+((d.data.freq/temp_data_two)*100).toFixed(2)+"%")
 							.style("left",(d3.event.pageX)+"px")
 							.style("top",(d3.event.pageY)-15+"px")
 						})
@@ -325,13 +343,13 @@ d3.json("data.json",function  (data) {
 						})
 						.attr("fill",function(d,i){
 							return colors(i);
-						}).attr("d",arc);
+						}).style("cursor","pointer").attr("d",arc);
 				
 		d3.selectAll("#chart-two-indicators").selectAll("h5").remove();
 
 		var text = d3.selectAll("#chart-two-indicators").selectAll("h5").data(temp_data).enter().append("h5")
 		.text(function(d){
-			return d.disease+" "+d.freq+"%";
+			return d.disease+" "+((d.freq/temp_data_two)*100).toFixed(2)+"%";
 		}).attr("class","pie-indicators").style("background",function(d,i){
 			return colors(i);
 		});
