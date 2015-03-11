@@ -1,3 +1,9 @@
 .x-axis-county {
 	-webkit-transform:rotate(-90deg);	
 }
+.pie-indicators {
+	padding: 10px;
+}
+#chart-two-indicators {
+	height: 500px;
+}
