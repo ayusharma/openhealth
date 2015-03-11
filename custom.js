@@ -59,6 +59,13 @@ d3.json("data.json",function  (data) {
 	console.log(unique(ucounty));
 	// console.log(unique(zip));
 
+	//tooltips
+	var tooltip = d3.select("body").append("div")
+					.style("position","absolute")
+					.style("padding","0 10px")
+					.style("background","white")
+					.style("opacity",0);
+
 	//Removing Repeating Values 
 	counties_disease = unique(counties_disease);
 	ucounty = unique(ucounty);
@@ -163,7 +170,19 @@ d3.json("data.json",function  (data) {
 		});
 		
 		//drawing bar chart for city V/S no. of people have diseases
-		svg.selectAll("rect").data(data_temp).enter().append("rect").transition()
+		svg.selectAll("rect").data(data_temp).enter().append("rect").style("cursor","pointer")
+		.on("mouseover",function(d){
+			d3.select(this).style("opacity",".5")
+			tooltip.transition().style("opacity",1)
+			tooltip.html(d.No)
+			.style("left",(d3.event.pageX)+"px")
+			.style("top",(d3.event.pageY)-15+"px")
+		})
+		.on("mouseout",function(d){
+			tooltip.transition().style("opacity",0)
+			d3.select(this).style("opacity","1")
+		})
+		.transition()
 		.attr({
 			x: function(d,i){ return i*(w/data_temp.length)},
 			y: function(d){ return h-yScale(d.No);},
@@ -203,7 +222,19 @@ d3.json("data.json",function  (data) {
 
 		//drawing bar chart for city V/S no. of people have diseases
 		svg.selectAll("rect").remove();
-		svg.selectAll("rect").data(data_temp).enter().append("rect").transition()
+		svg.selectAll("rect").data(data_temp).enter().append("rect").style("cursor","pointer")
+		.on("mouseover",function(d){
+			d3.select(this).style("opacity",".5")
+			tooltip.transition().style("opacity",1)
+			tooltip.html(d.No)
+			.style("left",(d3.event.pageX)+"px")
+			.style("top",(d3.event.pageY)-15+"px")
+		})
+		.on("mouseout",function(d){
+			tooltip.transition().style("opacity",0)
+			d3.select(this).style("opacity","1")
+		})
+		.transition()
 		.attr({
 			x: function(d,i){ return i*(w/data_temp.length)},
 			y: function(d){ return h-yScale(d.No);},
@@ -232,7 +263,20 @@ d3.json("data.json",function  (data) {
 						.attr("width",width).attr("height",height)
 						.append("g")
 						.attr("transform","translate("+(width-radius)+","+(height-radius)+")")
-						.selectAll("path").data(pie(temp_data)).enter().append("path").attr("fill",function(d,i){
+						.selectAll("path").data(pie(temp_data)).enter().append("path")
+						.style("cursor","pointer")
+						.on("mouseover",function(d){
+							console.log(d);
+							d3.select(this).style("opacity",".5")
+							tooltip.transition().style("opacity",1)
+							tooltip.html(d.data.disease+" "+d.data.freq)
+							.style("left",(d3.event.pageX)+"px")
+							.style("top",(d3.event.pageY)-15+"px")
+						})
+						.on("mouseout",function(d){
+							tooltip.transition().style("opacity",0)
+							d3.select(this).style("opacity","1")
+						}).attr("fill",function(d,i){
 							return colors(i);
 						}).attr("d",arc);
 				
@@ -266,7 +310,20 @@ d3.json("data.json",function  (data) {
 						.attr("width",width).attr("height",height)
 						.append("g")
 						.attr("transform","translate("+(width-radius)+","+(height-radius)+")")
-						.selectAll("path").data(pie(temp_data)).enter().append("path").attr("fill",function(d,i){
+						.selectAll("path").data(pie(temp_data)).enter().append("path")
+						.on("mouseover",function(d){
+							console.log(d);
+							d3.select(this).style("opacity",".5")
+							tooltip.transition().style("opacity",1)
+							tooltip.html(d.data.disease+" "+d.data.freq)
+							.style("left",(d3.event.pageX)+"px")
+							.style("top",(d3.event.pageY)-15+"px")
+						})
+						.on("mouseout",function(d){
+							tooltip.transition().style("opacity",0)
+							d3.select(this).style("opacity","1")
+						})
+						.attr("fill",function(d,i){
 							return colors(i);
 						}).attr("d",arc);
 				
