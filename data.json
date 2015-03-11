@@ -13,7 +13,7 @@
 }
 , {
   "ip_recips" : "813",
-  "recip_condition" : "7351",
+  "recip_condition" : "7351", 
   "zip_code" : "11220",
   "county" : "Kings ",
   "er_visits" : "2176",
@@ -5214,7 +5214,7 @@
 , {
   "ip_recips" : "444",
   "recip_condition" : "1257",
-  "zip_code" : "10001",
+  "zip_code" : "10001   ",
   "county" : "New York ",
   "er_visits" : "2905",
   "er_recips" : "626",
