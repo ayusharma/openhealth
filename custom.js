@@ -1,5 +1,5 @@
 //margin object
-var margin = {top:50,bottom:150,right:50,left:50}
+var margin = {top:50,bottom:100,right:50,left:50}
 
 var w = 1000 -margin.left-margin.right;
 var h = 500 -margin.top-margin.bottom;
@@ -57,7 +57,7 @@ d3.json("data.json",function  (data) {
 
 	console.log(unique(counties_disease));
 	console.log(unique(ucounty));
-	console.log(unique(zip));
+	// console.log(unique(zip));
 
 	//Removing Repeating Values 
 	counties_disease = unique(counties_disease);
@@ -129,9 +129,10 @@ d3.json("data.json",function  (data) {
 		console.log(data_temp);	
 		//creating scales
 		var yScale = d3.scale.linear()
-				.domain([d3.min(data_temp, function(d){ return d.No; }),d3.max(data_temp, function(d){ return d.No; })])
+				.domain([0,d3.max(data_temp, function(d){ return d.No; })])
 				.range([0,h]);
 
+		// console.log(yScale(1));
 		//creating axis
 		var yAxisScale = d3.scale.linear()
 				.domain([0,d3.max(data_temp, function(d){ return d.No; })])
@@ -178,10 +179,10 @@ d3.json("data.json",function  (data) {
 	function drawBarUpdate(selectedDisease){
 		
 		var data_temp = diseseCount(selectedDisease);
-		console.log(data_temp);	
+		// console.log(data_temp);	
 		//creating scales
 		var yScale = d3.scale.linear()
-				.domain([d3.min(data_temp, function(d){ return d.No; }),d3.max(data_temp, function(d){ return d.No; })])
+				.domain([0,d3.max(data_temp, function(d){ return d.No; })])
 				.range([0,h]);
 
 		
@@ -227,7 +228,7 @@ d3.json("data.json",function  (data) {
 
 		var arc = d3.svg.arc().outerRadius(radius)
 
-		var myChart = d3.select("#chart-two").append("svg")
+		var myChart = d3.select("#chart-two").append("svg").attr("class","pie-chart")
 						.attr("width",width).attr("height",height)
 						.append("g")
 						.attr("transform","translate("+(width-radius)+","+(height-radius)+")")
@@ -236,18 +237,54 @@ d3.json("data.json",function  (data) {
 						}).attr("d",arc);
 				
 
-		var text = d3.selectAll("#chart-two-indicators").selectAll("span").data(temp_data).enter().append("span")
+		var text = d3.selectAll("#chart-two-indicators").selectAll("h5")
+		.data(temp_data).enter().append("h5")
 		.text(function(d){
-			return d.disease;
+			return d.disease+" "+d.freq+"%";
 		}).attr("class","pie-indicators").style("background",function(d,i){
 			return colors(i);
 		});
 
 	}
 
+	// function to update pie chart
+	function drawPieUpdate (selectedCounty) {
+		var width = 400;
+		var height = 400;
+		var radius = 200;
+		var colors = d3.scale.category20c();
+		var temp_data = freqDisease(selectedCounty);
+
+		var pie = d3.layout.pie().value(function (d) {
+		return d.freq;
+		})
+
+		var arc = d3.svg.arc().outerRadius(radius)
+
+		d3.select(".pie-chart").remove();
+		var myChart = d3.select("#chart-two").append("svg").attr("class","pie-chart")
+						.attr("width",width).attr("height",height)
+						.append("g")
+						.attr("transform","translate("+(width-radius)+","+(height-radius)+")")
+						.selectAll("path").data(pie(temp_data)).enter().append("path").attr("fill",function(d,i){
+							return colors(i);
+						}).attr("d",arc);
+				
+		d3.selectAll("#chart-two-indicators").selectAll("h5").remove();
+
+		var text = d3.selectAll("#chart-two-indicators").selectAll("h5").data(temp_data).enter().append("h5")
+		.text(function(d){
+			return d.disease+" "+d.freq+"%";
+		}).attr("class","pie-indicators").style("background",function(d,i){
+			return colors(i);
+		});
+
+	}
+
+
 	//default selected value
 	drawBar("Hypertension");
-	drawPie("Clinton ");
+	drawPie("New York ");
 
 	//adding a disease event selector to select diseases
 	d3.select("#county_diseases").on("change",function(d,i){
@@ -260,10 +297,10 @@ d3.json("data.json",function  (data) {
 	//adding a disease event selector to county
 	d3.select("#county").on("change",function(d,i){
 		var sel = d3.select(this).node().value;
-		// freqDisease(sel);
+		drawPieUpdate(sel);
 		console.log(freqDisease(sel));
 
 	});
 
 })
-console.log(openHealth.sodaData);
+// console.log(openHealth.sodaData);
